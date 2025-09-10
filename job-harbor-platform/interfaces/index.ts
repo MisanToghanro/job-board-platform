@@ -1,9 +1,21 @@
 
 
-export interface Job{
-     title: string;
-     company_name: string;
+export interface JobProps{
+     id:number;
     category:string;
     location:string;
-    experienceLevel:"Entry-Level"|"Junior-Level"|"Senior-Level";
+    experience:""|"Entry-Level"|"Junior-Level"|"Senior-Level";
+    company: string;
+    description:string;
 }
+
+export interface SearchProps {
+    search: (category:string,
+         location:string, 
+         experience:""|"Entry-Level"|"Junior-Level"|"Senior-Level" ) => void;
+}
+
+export interface ApplicationProps{
+
+}
+
