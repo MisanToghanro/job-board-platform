@@ -93,30 +93,9 @@ const SearchBar: React.FC = () => {
                 </select>
 {errors.experience && (<p className="text-red-400 p-3   text-sm mt-1 ">{errors.experience}</p>)}
 </div>
-
-
-                
-
-
-
-
-               
-
-
-
-                
-
                 <button  type="submit"   className="bg-blue-500 hover:bg-blue-600 hover:scale-105 shadow-md py-3 px-4 rounded-md cursor-pointer">Search</button>
             </div> 
             )}
-
-            </div>
-            <div className="flex flex-col md:flex-row  mt-2">
-               
-
-                 
-
-                
 
             </div>
         </form>
