@@ -27,7 +27,7 @@ const SearchBar: React.FC = () => {
         }
 
         if(!experience){
-            inputErrors.experience = "Please select an experience level."
+            inputErrors.experience = "Please select your expertise."
         }
 
         setErrors(inputErrors);
@@ -36,14 +36,21 @@ const SearchBar: React.FC = () => {
              
              setFilters({category,location,experience}) ;
         }
-    }
+
+        setCategory("");
+        setLocation("");
+        setExperience("");
+
+
+}
 
     return(
      <div>
      <form onSubmit={handleSubmit}className="text-white flex flex-col items-center p-4 bg-gradient-to-br from-purple-500 to-blue-500 px-4 md:px-8 rounded-md shadow-lg">
-            <h1 className="text-xl md:text-3xl font-bold text-centermt-6  mb-6">Your ideal job awaits you!</h1>
 
-            <div className="mt-5 w-full max-w-md ">
+            <h1 className="text-xl md:text-3xl font-bold text-center mt-6  mb-6">Your ideal job awaits you!</h1>
+
+         <div className="mt-5 w-full max-w-md ">
              
             <input
             placeholder="Search jobs..."
@@ -53,7 +60,7 @@ const SearchBar: React.FC = () => {
             />
 
             {isOpen && (
-                <div className="flex flex-col md:flex-row justify-center items-center w-full space-x-3 space-y-3  md:space-y-0 mt-6">
+            <div className="flex flex-col md:flex-row justify-center items-center w-full space-x-3 space-y-3  md:space-y-3 mt-6">
 
                 <div className=" ">
                 <input 
@@ -61,12 +68,11 @@ const SearchBar: React.FC = () => {
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
                 placeholder="Category/Job Title (e.g., React Developer)"
-                className="w-64 py-3 pl-4 bg-white text-black font-semibold rounded-md"
-                />
- {errors.category && (<p className="text-red-400 p-3  text-sm mt-1 ">{errors.category}</p>)}
-</div>
+                className="w-64 py-3 pl-4 bg-white text-black font-semibold rounded-md"/>
+               { errors.category && (<p className="bg-red-400 text-white p-2 rounded-md  text-md md:text-lg mt-1 ">{errors.category}</p>)}
+                </div>
 
-<div className="">
+                <div className="">
                 <select 
                 value={location}
                 onChange={(e) => setLocation(e.target.value)}
@@ -77,13 +83,13 @@ const SearchBar: React.FC = () => {
                     <option value="In-Office" >In-Office</option>
                     <option value="Hybrid" >Hybrid</option>
                 </select>
-{errors.location && (<p className="text-red-400 p-3  text-sm mt-1 ">{errors.location}</p>)}
-</div>
+              {errors.location && (<p className="bg-red-400 text-white p-2 rounded-md  text-md md:text-lg mt-1 ">{errors.location}</p>)}
+                </div>
 
-<div className="">
+               <div className="">
                 <select 
                 value={experience}
-                onChange={(e) => setExperience(e.target.value as "Entry-Level" | "Junior-Level" | "Senior-Level")}
+                 onChange={(e) => setExperience(e.target.value as "Entry-Level" | "Junior-Level" | "Senior-Level")}
                 className="w-64 py-3 pl-4 bg-white text-black font-semibold rounded-md">
 
                     <option value="" disabled >Experience-Level</option>
@@ -91,13 +97,14 @@ const SearchBar: React.FC = () => {
                     <option value="Junior-Level" >Junior-Level</option>
                     <option value="Senior-Level" >Senior-Level</option>
                 </select>
-{errors.experience && (<p className="text-red-400 p-3   text-sm mt-1 ">{errors.experience}</p>)}
-</div>
+               {errors.experience && (<p className="bg-red-400 text-white p-2 rounded-md  text-md md:text-lg mt-1 ">{errors.experience}</p>)}
+               </div>
+               
                 <button  type="submit"   className="bg-blue-500 hover:bg-blue-600 hover:scale-105 shadow-md py-3 px-4 rounded-md cursor-pointer">Search</button>
             </div> 
             )}
 
-            </div>
+        </div>
         </form>
 
 

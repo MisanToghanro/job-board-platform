@@ -39,7 +39,7 @@ const JobList: React.FC = () => {
     const filterJobs = jobs.filter((job) => {
 
         return(
-            (filters.category ? job.category.toLowerCase().includes(filters.category.toLowerCase()): true) &&
+            (filters.category ? job.category.toLowerCase().includes(filters.category.trim().toLowerCase()): true) &&
             (filters.location ? job.location.includes(filters.location): true) &&
             (filters.experience ?job.experience === filters.experience: true)
 

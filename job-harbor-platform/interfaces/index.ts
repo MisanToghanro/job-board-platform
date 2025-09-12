@@ -15,7 +15,12 @@ export interface SearchProps {
          experience:""|"Entry-Level"|"Junior-Level"|"Senior-Level" ) => void;
 }
 
-export interface ApplicationProps{
-
+export interface JobApplicationProps{
+    id:number
+    jobId:number;
+    name:string;
+    email:string;
+    portfolioUrl?:string;
+    coverLetter:string;
 }
 
