@@ -29,8 +29,13 @@ const JobList: React.FC = () => {
 
         const data = await res.json();
         setJobs(data.results || []);
-        }catch (error:any){
-             setError(error.message|| "something went wrong")
+     } catch (error) {
+     if (error instanceof Error) {
+       setError(error.message);
+      } else {
+     setError("Something went wrong");
+       }
+
         }finally{
             setLoading(false)
         }
