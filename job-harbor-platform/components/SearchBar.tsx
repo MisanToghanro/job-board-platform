@@ -19,20 +19,19 @@ const SearchBar: React.FC = () => {
         location?:string;}>({})
 
 
-        useEffect(() => {
-
-            const fetchCategories = async () => {
-                try{
-                    const res = await fetch("/api/categories")
-                    const data = await res.json()
-                    setCategories(data)
-
-                }catch (error){
-                   console.error("failed to fetch", error)
-                }
-            };
-            fetchCategories();
-        }, [])
+ useEffect(() => {
+    const fetchCategories = async () => {
+     
+      try {
+        const res = await fetch("/api/categories");
+        const data = await res.json();
+        setCategories(data.categories || data.results || []);
+      } catch (error) {
+        console.error("Failed to fetch categories", error);
+      } 
+    };
+    fetchCategories();
+  }, []);
 
     const handleSubmit = (e:React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -94,19 +93,21 @@ const SearchBar: React.FC = () => {
 
         {/*category*/}
                 <div className=" ">
-                <select
-                value={selectedCategory?.id}
-                onChange={(e) => setSelectedCategory(
-                    categories.find((category) => category.id === Number(e.target.value)) || null
-                )}
-                className="w-64 py-3 pl-4 bg-white text-black font-semibold rounded-md">
-                
-                <option value="">Select Category</option>
-                {categories.map((category)=>(
-                    <option key={category.id} value={category.id}>
-                        {category.name}
-                    </option>
-                ))}
+ <select
+      value={selectedCategory?.id || ""}
+      onChange={(e) =>
+        setSelectedCategory(
+          categories.find((c) => c.id === Number(e.target.value)) || null
+        )
+      }
+      className="w-64 py-3 pl-4 bg-white text-black font-semibold rounded-md"
+    >
+      <option value="">Select Category</option>
+      {categories.map((category) => (
+        <option key={category.id} value={category.id}>
+          {category.name}
+        </option>
+      ))}
                 </select>
                { errors.selectedCategory && (<p className="bg-red-400 text-white p-2 rounded-md  text-md md:text-lg mt-1 ">{errors.selectedCategory}</p>)}
                 </div>
