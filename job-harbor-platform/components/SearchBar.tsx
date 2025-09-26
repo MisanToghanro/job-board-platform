@@ -1,47 +1,65 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import JobList from "./jobs/JobListing";
 import { useFilter } from "@/context/FilterContext";
-
+import { Category } from "@/interfaces";
 
 const SearchBar: React.FC = () => {
 
       const {setFilters} = useFilter();
-     const[category, setCategory] = useState<string>("");
+      const [title, setTitle] = useState<string>("");
+      const [jobType, setJobType] = useState<string>("");
+     const[categories, setCategories] = useState<Category[]>([]);
+     const [selectedCategory, setSelectedCategory] = useState<Category | null>(null)
      const[location, setLocation] = useState<string>("");
-    const [experience, setExperience] = useState< ""|"Entry-Level" | "Junior-Level" | "Senior-Level">("" );
     const [isOpen, setIsOpen] = useState<boolean>(false);
-    const [errors, setErrors] = useState<{category?:string; location?:string; experience?:string}>({})
+    const [errors, setErrors] = useState<{
+        title?: string;
+        jobType?:string;
+        selectedCategory?:string; 
+        location?:string;}>({})
 
+
+        useEffect(() => {
+
+            const fetchCategories = async () => {
+                try{
+                    const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/categories/`)
+                    const data = await res.json()
+                    setCategories(data)
+
+                }catch (error){
+                   console.error("failed to fetch", error)
+                }
+            };
+            fetchCategories();
+        }, [])
 
     const handleSubmit = (e:React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         const inputErrors: typeof errors = {}
 
-        if(!category.trim()){
-            inputErrors.category = "Please enter a job title."
+        if(!title.trim()){
+            inputErrors.title = "Please enter a job title."
         }
 
         if(!location){
            inputErrors.location = "Please select a location."
         }
 
-        if(!experience){
-            inputErrors.experience = "Please select your expertise."
+        if(!jobType){
+            inputErrors.jobType = "Please select a jobtype."
         }
 
+        if (!selectedCategory) {
+            inputErrors.selectedCategory = "Please select a category.";
+        }
         setErrors(inputErrors);
 
         if(Object.keys(inputErrors).length === 0){
              
-             setFilters({category,location,experience}) ;
+             setFilters({title,location,category:selectedCategory}) ;
         }
-
-        setCategory("");
-        setLocation("");
-        setExperience("");
-
-
 }
 
     return(
@@ -62,16 +80,55 @@ const SearchBar: React.FC = () => {
             {isOpen && (
             <div className="flex flex-col md:flex-row justify-center items-center w-full space-x-3 space-y-3  md:space-y-3 mt-6">
 
-                <div className=" ">
-                <input 
-                type="text"
-                value={category}
-                onChange={(e) => setCategory(e.target.value)}
-                placeholder="Category/Job Title (e.g., React Developer)"
-                className="w-64 py-3 pl-4 bg-white text-black font-semibold rounded-md"/>
-               { errors.category && (<p className="bg-red-400 text-white p-2 rounded-md  text-md md:text-lg mt-1 ">{errors.category}</p>)}
+        {/*job title*/}
+                <div>
+                    <input
+                    type="text"
+                    placeholder="job title...(e.Frontend developer)"
+                    value={title}
+                    onChange={(e) =>setTitle(e.target.value)}
+                    className="w-64 py-3 pl-4 bg-white text-black font-semibold rounded-md"
+                    />
+                    {errors.title && (<p className="bg-red-400 text-white p-2 rounded-md  text-md md:text-lg mt-1 ">{errors.title}</p>)}
                 </div>
 
+        {/*category*/}
+                <div className=" ">
+                <select
+                value={selectedCategory?.id}
+                onChange={(e) => setSelectedCategory(
+                    categories.find((category) => category.id === Number(e.target.value)) || null
+                )}
+                className="w-64 py-3 pl-4 bg-white text-black font-semibold rounded-md">
+                
+                <option value="">Select Category</option>
+                {categories.map((category)=>(
+                    <option key={category.id} value={category.id}>
+                        {category.name}
+                    </option>
+                ))}
+                </select>
+               { errors.selectedCategory && (<p className="bg-red-400 text-white p-2 rounded-md  text-md md:text-lg mt-1 ">{errors.selectedCategory}</p>)}
+                </div>
+
+        {/*job type*/}
+               <div className="">
+                <select 
+                value={jobType}
+                 onChange={(e) => setJobType(e.target.value)}
+                className="w-64 py-3 pl-4 bg-white text-black font-semibold rounded-md">
+
+                <option value="" disabled >Job Type</option>
+
+                 <option value="full_time">Full Time</option>
+                  <option value="part_time">Part Time</option>
+                  <option value="contract">Contract</option>
+                  <option value="internship">Internship</option>
+                </select>
+               {errors.jobType && (<p className="bg-red-400 text-white p-2 rounded-md  text-md md:text-lg mt-1 ">{errors.jobType}</p>)}
+               </div>
+
+        {/*location*/}
                 <div className="">
                 <select 
                 value={location}
@@ -86,19 +143,6 @@ const SearchBar: React.FC = () => {
               {errors.location && (<p className="bg-red-400 text-white p-2 rounded-md  text-md md:text-lg mt-1 ">{errors.location}</p>)}
                 </div>
 
-               <div className="">
-                <select 
-                value={experience}
-                 onChange={(e) => setExperience(e.target.value as "Entry-Level" | "Junior-Level" | "Senior-Level")}
-                className="w-64 py-3 pl-4 bg-white text-black font-semibold rounded-md">
-
-                    <option value="" disabled >Experience-Level</option>
-                    <option value="Entry-Level" >Entry-Level</option>
-                    <option value="Junior-Level" >Junior-Level</option>
-                    <option value="Senior-Level" >Senior-Level</option>
-                </select>
-               {errors.experience && (<p className="bg-red-400 text-white p-2 rounded-md  text-md md:text-lg mt-1 ">{errors.experience}</p>)}
-               </div>
                
                 <button  type="submit"   className="bg-blue-500 hover:bg-blue-600 hover:scale-105 shadow-md py-3 px-4 rounded-md cursor-pointer">Search</button>
             </div> 

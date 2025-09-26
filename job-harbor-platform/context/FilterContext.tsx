@@ -1,14 +1,13 @@
 
 
 import React, { createContext, useContext, useState, ReactNode } from "react";
+import { Category } from "@/interfaces";
 
-//define the types and interfaces for filters
-type ExperienceLevel = "" | "Entry-Level" | "Junior-Level" | "Senior-Level";
 
 interface FilterProps {
-    category:string;
+    category:Category | null;
     location:string;
-    experience: ExperienceLevel
+    title:string;
 }
 
 interface FilterContextType{
@@ -22,9 +21,9 @@ const FilterContext = createContext<FilterContextType | undefined>(undefined);
 //create a provider
 export const FilterProvider = ({children} : {children:ReactNode}) => {
     const[filters, setFilters] = useState<FilterProps>({
-     category: "",
+     category: null,
     location: "",
-    experience: "",
+    title: "",
     })
 
     return(
