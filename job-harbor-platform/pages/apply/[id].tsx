@@ -6,7 +6,7 @@ const ApplyPage: React.FC = () => {
     const router = useRouter();
     const {id} = router.query;
 
-    if (!id) return <p>please wait...</p>
+    if (!id) return <p className="text-white">please wait...</p>
    return(
       <ApplyForm jobId={Number(id)} />
     )

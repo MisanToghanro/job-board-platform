@@ -60,7 +60,7 @@ const ApplyForm: React.FC<ApplicationProps> = ({jobId}) => {
        
     return(
       <div className="p-5 h-screen bg-gradient-to-b from bg-blue-500 to-purple-500 ">
-          <form onSubmit={handleSubmit} className="bg-white rounded-lg  shadow-blue-400  shadow-lg p-6 space-y-4 w-full max-w-lg mx-auto">
+          <form onSubmit={handleSubmit} className="bg-white rounded-lg  shadow-blue-400  shadow-2xl p-6 space-y-4 w-full max-w-lg mx-auto">
 
     <h2 className="text-2xl font-bold text-gray-800">Apply for this Job</h2>
 
@@ -120,9 +120,9 @@ const ApplyForm: React.FC<ApplicationProps> = ({jobId}) => {
 
         <div className=" flex flex-col md:flex-row space-x-2 space-y-2 justify-between">
 
-         <button type="submit"  className="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 cursor-pointer hover:scale-105 shadow-md">submit</button>
+         <button type="submit"  className="bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-600 cursor-pointer hover:scale-105 shadow-md">submit</button>
 
-        <Link href={`/search`}  className="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 cursor-pointer hover:scale-105 shadow-md">
+        <Link href={`/search`}  className="bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-600 cursor-pointer hover:scale-105 shadow-md text-center">
          Go back to searchpage
          </Link>
 
