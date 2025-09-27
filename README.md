@@ -66,3 +66,21 @@ Enable users to filter jobs by:
 - Input validation ensures accuracy and reduces errors.  
 
 ---
+---
+
+## 🔗 API Reference  
+
+The Job Harbor Application consumes data from the following API:  
+
+Base URL:  
+https://jobboard-zhor.onrender.com/api/
+
+
+# Available endpoints:  
+- `/jobs/` → Get paginated job listings  
+- `/categories/` → Get available job categories  
+
+Example request:  
+```bash
+GET https://jobboard-zhor.onrender.com/api/jobs/?page=2
+
